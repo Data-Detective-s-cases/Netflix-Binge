@@ -1,0 +1,35 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Context7 Library Documentation Workflow
+
+## Library Access Process
+
+The recommended workflow for accessing library documentation:
+
+1. First resolve the library name to a valid Context7 library ID
+2. Then retrieve the library documentation
+3. Follow a step-by-step approach when implementing solutions
+
+## Library Resolution
+
+To find the correct library documentation:
+- Search for the exact library name
+- Use specific version information when needed
+- Review the matched libraries to confirm it's correct before proceeding
+
+## Documentation Access
+
+When retrieving documentation:
+- Be specific about the topic you need information on
+- Adjust the token limit based on the complexity of your query
+- Request only what's needed for the current task
+
+## Implementation Guidelines
+
+- Take it one step at a time
+- Understand the documentation before implementing
+- Verify your approach against the official documentation
+- Follow library best practices
