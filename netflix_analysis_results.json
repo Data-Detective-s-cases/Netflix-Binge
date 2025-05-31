@@ -1,0 +1,478 @@
+{
+    "movie_duration_stats": {
+        "count": 6128.0,
+        "mean": 99.57718668407311,
+        "std": 28.290593447417397,
+        "min": 3.0,
+        "25%": 87.0,
+        "50%": 98.0,
+        "75%": 114.0,
+        "max": 312.0
+    },
+    "tvshow_seasons_stats": {
+        "count": 2676.0,
+        "mean": 1.764947683109118,
+        "std": 1.5827519028726411,
+        "min": 1.0,
+        "25%": 1.0,
+        "50%": 1.0,
+        "75%": 2.0,
+        "max": 17.0
+    },
+    "top_genres": {
+        "International Movies": 2752,
+        "Dramas": 2427,
+        "Comedies": 1674,
+        "International TV Shows": 1351,
+        "Documentaries": 869,
+        "Action & Adventure": 859,
+        "TV Dramas": 763,
+        "Independent Movies": 756,
+        "Children & Family Movies": 641,
+        "Romantic Movies": 616
+    },
+    "genre_binge_scores": [
+        {
+            "Genre": "tv comedies",
+            "Average_Binge_Score": 11.209982788296042,
+            "Content_Count": 581
+        },
+        {
+            "Genre": "crime tv shows",
+            "Average_Binge_Score": 11.208510638297872,
+            "Content_Count": 470
+        },
+        {
+            "Genre": "tv dramas",
+            "Average_Binge_Score": 10.99213630406291,
+            "Content_Count": 763
+        },
+        {
+            "Genre": "reality tv",
+            "Average_Binge_Score": 10.282352941176471,
+            "Content_Count": 255
+        },
+        {
+            "Genre": "international tv shows",
+            "Average_Binge_Score": 10.042931162102146,
+            "Content_Count": 1351
+        },
+        {
+            "Genre": "kids' tv",
+            "Average_Binge_Score": 9.753880266075388,
+            "Content_Count": 451
+        },
+        {
+            "Genre": "docuseries",
+            "Average_Binge_Score": 9.6,
+            "Content_Count": 395
+        },
+        {
+            "Genre": "romantic tv shows",
+            "Average_Binge_Score": 9.521621621621621,
+            "Content_Count": 370
+        },
+        {
+            "Genre": "independent movies",
+            "Average_Binge_Score": 6.068783068783069,
+            "Content_Count": 756
+        },
+        {
+            "Genre": "international movies",
+            "Average_Binge_Score": 5.924418604651163,
+            "Content_Count": 2752
+        },
+        {
+            "Genre": "thrillers",
+            "Average_Binge_Score": 5.864818024263432,
+            "Content_Count": 577
+        },
+        {
+            "Genre": "count",
+            "Average_Binge_Score": 5.830693069306931,
+            "Content_Count": 19323
+        },
+        {
+            "Genre": "music & musicals",
+            "Average_Binge_Score": 5.768,
+            "Content_Count": 375
+        },
+        {
+            "Genre": "romantic movies",
+            "Average_Binge_Score": 5.720779220779221,
+            "Content_Count": 616
+        },
+        {
+            "Genre": "documentaries",
+            "Average_Binge_Score": 5.6996547756041425,
+            "Content_Count": 869
+        },
+        {
+            "Genre": "dramas",
+            "Average_Binge_Score": 5.680263700041203,
+            "Content_Count": 2427
+        },
+        {
+            "Genre": "horror movies",
+            "Average_Binge_Score": 5.512605042016807,
+            "Content_Count": 357
+        },
+        {
+            "Genre": "comedies",
+            "Average_Binge_Score": 5.350059737156512,
+            "Content_Count": 1674
+        },
+        {
+            "Genre": "children & family movies",
+            "Average_Binge_Score": 5.30421216848674,
+            "Content_Count": 641
+        },
+        {
+            "Genre": "stand-up comedy",
+            "Average_Binge_Score": 4.9912536443148685,
+            "Content_Count": 343
+        },
+        {
+            "Genre": "action & adventure",
+            "Average_Binge_Score": 4.757857974388824,
+            "Content_Count": 859
+        }
+    ],
+    "genre_correlations": {
+        "genre_tv_comedies": {
+            "genre_tv_comedies": 1.0,
+            "genre_crime_tv_shows": -0.00815275962304426,
+            "genre_tv_dramas": 0.09051637208379938,
+            "genre_reality_tv": -0.02679537724835579,
+            "genre_international_tv_shows": 0.19150490752393345,
+            "genre_kids'_tv": 0.20180697148673193,
+            "genre_docuseries": -0.04653927964917937,
+            "genre_romantic_tv_shows": 0.195154615829736,
+            "genre_independent_movies": -0.0814384872783041,
+            "genre_international_movies": -0.17916816866515162
+        },
+        "genre_crime_tv_shows": {
+            "genre_tv_comedies": -0.00815275962304426,
+            "genre_crime_tv_shows": 1.0,
+            "genre_tv_dramas": 0.25013158409215364,
+            "genre_reality_tv": -0.03798686211610097,
+            "genre_international_tv_shows": 0.31807624304578275,
+            "genre_kids'_tv": -0.0482855632481789,
+            "genre_docuseries": 0.2048294404797762,
+            "genre_romantic_tv_shows": -0.024540894939868385,
+            "genre_independent_movies": -0.07275787605154817,
+            "genre_international_movies": -0.16007045125450062
+        },
+        "genre_tv_dramas": {
+            "genre_tv_comedies": 0.09051637208379938,
+            "genre_crime_tv_shows": 0.25013158409215364,
+            "genre_tv_dramas": 1.0,
+            "genre_reality_tv": -0.05077445730897448,
+            "genre_international_tv_shows": 0.4446216811502962,
+            "genre_kids'_tv": -0.04774497923352938,
+            "genre_docuseries": -0.06088767029573054,
+            "genre_romantic_tv_shows": 0.17694775521886538,
+            "genre_independent_movies": -0.09437614256244863,
+            "genre_international_movies": -0.20763156578302563
+        },
+        "genre_reality_tv": {
+            "genre_tv_comedies": -0.02679537724835579,
+            "genre_crime_tv_shows": -0.03798686211610097,
+            "genre_tv_dramas": -0.05077445730897448,
+            "genre_reality_tv": 1.0,
+            "genre_international_tv_shows": 0.11252413504869625,
+            "genre_kids'_tv": -0.03397249178020481,
+            "genre_docuseries": 0.05418971214817581,
+            "genre_romantic_tv_shows": 0.03809825091866318,
+            "genre_independent_movies": -0.0529141992752714,
+            "genre_international_movies": -0.11641351033614993
+        },
+        "genre_international_tv_shows": {
+            "genre_tv_comedies": 0.19150490752393345,
+            "genre_crime_tv_shows": 0.31807624304578275,
+            "genre_tv_dramas": 0.4446216811502962,
+            "genre_reality_tv": 0.11252413504869625,
+            "genre_international_tv_shows": 1.0,
+            "genre_kids'_tv": -0.09746317647715241,
+            "genre_docuseries": 0.08586774418706129,
+            "genre_romantic_tv_shows": 0.4055822349407615,
+            "genre_independent_movies": -0.13043997571183713,
+            "genre_international_movies": -0.28697354715284534
+        },
+        "genre_kids'_tv": {
+            "genre_tv_comedies": 0.20180697148673193,
+            "genre_crime_tv_shows": -0.0482855632481789,
+            "genre_tv_dramas": -0.04774497923352938,
+            "genre_reality_tv": -0.03397249178020481,
+            "genre_international_tv_shows": -0.09746317647715241,
+            "genre_kids'_tv": 1.0,
+            "genre_docuseries": -0.0478540566891797,
+            "genre_romantic_tv_shows": -0.04865146168686083,
+            "genre_independent_movies": -0.0711909912008784,
+            "genre_international_movies": -0.15662323730706668
+        },
+        "genre_docuseries": {
+            "genre_tv_comedies": -0.04653927964917937,
+            "genre_crime_tv_shows": 0.2048294404797762,
+            "genre_tv_dramas": -0.06088767029573054,
+            "genre_reality_tv": 0.05418971214817581,
+            "genre_international_tv_shows": 0.08586774418706129,
+            "genre_kids'_tv": -0.0478540566891797,
+            "genre_docuseries": 1.0,
+            "genre_romantic_tv_shows": -0.04537908693663119,
+            "genre_independent_movies": -0.06640257181999669,
+            "genre_international_movies": -0.14608850907296506
+        },
+        "genre_romantic_tv_shows": {
+            "genre_tv_comedies": 0.195154615829736,
+            "genre_crime_tv_shows": -0.024540894939868385,
+            "genre_tv_dramas": 0.17694775521886538,
+            "genre_reality_tv": 0.03809825091866318,
+            "genre_international_tv_shows": 0.4055822349407615,
+            "genre_kids'_tv": -0.04865146168686083,
+            "genre_docuseries": -0.04537908693663119,
+            "genre_romantic_tv_shows": 1.0,
+            "genre_independent_movies": -0.06417159322585252,
+            "genre_international_movies": -0.14118026037627698
+        },
+        "genre_independent_movies": {
+            "genre_tv_comedies": -0.0814384872783041,
+            "genre_crime_tv_shows": -0.07275787605154817,
+            "genre_tv_dramas": -0.09437614256244863,
+            "genre_reality_tv": -0.0529141992752714,
+            "genre_international_tv_shows": -0.13043997571183713,
+            "genre_kids'_tv": -0.0711909912008784,
+            "genre_docuseries": -0.06640257181999669,
+            "genre_romantic_tv_shows": -0.06417159322585252,
+            "genre_independent_movies": 1.0,
+            "genre_international_movies": 0.048767571814341534
+        },
+        "genre_international_movies": {
+            "genre_tv_comedies": -0.17916816866515162,
+            "genre_crime_tv_shows": -0.16007045125450062,
+            "genre_tv_dramas": -0.20763156578302563,
+            "genre_reality_tv": -0.11641351033614993,
+            "genre_international_tv_shows": -0.28697354715284534,
+            "genre_kids'_tv": -0.15662323730706668,
+            "genre_docuseries": -0.14608850907296506,
+            "genre_romantic_tv_shows": -0.14118026037627698,
+            "genre_independent_movies": 0.048767571814341534,
+            "genre_international_movies": 1.0
+        }
+    },
+    "release_gap_stats": {
+        "count": 0.0,
+        "mean": NaN,
+        "std": NaN,
+        "min": NaN,
+        "25%": NaN,
+        "50%": NaN,
+        "75%": NaN,
+        "max": NaN
+    },
+    "gap_binge_scores": [
+        {
+            "gap_category": "<1 year",
+            "mean": NaN,
+            "count": 0
+        },
+        {
+            "gap_category": "1-3 years",
+            "mean": NaN,
+            "count": 0
+        },
+        {
+            "gap_category": "3-5 years",
+            "mean": NaN,
+            "count": 0
+        },
+        {
+            "gap_category": "5-10 years",
+            "mean": NaN,
+            "count": 0
+        },
+        {
+            "gap_category": "10-20 years",
+            "mean": NaN,
+            "count": 0
+        },
+        {
+            "gap_category": "20+ years",
+            "mean": NaN,
+            "count": 0
+        }
+    ],
+    "top_countries": {
+        "United States": 3211,
+        "India": 1008,
+        "Unknown": 831,
+        "United Kingdom": 628,
+        "Canada": 271,
+        "Japan": 259,
+        "France": 212,
+        "South Korea": 211,
+        "Spain": 181,
+        "Mexico": 134
+    },
+    "country_binge_scores": {
+        "Jordan": 12.0,
+        "Luxembourg": 11.0,
+        "Senegal": 11.0,
+        "Mauritius": 10.0,
+        "Belarus": 10.0,
+        "Finland": 10.0,
+        "Puerto Rico": 10.0,
+        "Ukraine": 9.5,
+        "Belgium": 9.333333333333334,
+        "Mozambique": 9.0,
+        "Iceland": 9.0,
+        "Cameroon": 9.0,
+        "South Korea": 8.976303317535544,
+        "Colombia": 8.675,
+        "Spain": 8.524861878453038
+    },
+    "country_type_distribution": {
+        "Movie": {
+            "Canada": 187,
+            "India": 927,
+            "United Kingdom": 382,
+            "United States": 2364,
+            "Unknown": 440
+        },
+        "TV Show": {
+            "Canada": 84,
+            "India": 81,
+            "United Kingdom": 246,
+            "United States": 847,
+            "Unknown": 391
+        }
+    },
+    "rating_binge_scores": {
+        "mean": {
+            "Kids": 7.637665198237886,
+            "Adult": 7.179607715999351,
+            "Family": 5.455487804878048,
+            "Unknown": 4.5,
+            "Other": 3.9767441860465116
+        },
+        "std": {
+            "Kids": 4.196889677614156,
+            "Adult": 3.888378429508737,
+            "Family": 3.4553502218203356,
+            "Unknown": 1.2909944487358056,
+            "Other": 3.346558352154876
+        },
+        "count": {
+            "Kids": 908,
+            "Adult": 6169,
+            "Family": 1640,
+            "Unknown": 4,
+            "Other": 86
+        }
+    },
+    "yearly_additions": {},
+    "key_correlations": {
+        "binge_score": {
+            "binge_score": 1.0,
+            "duration_value": -0.5286487021834765,
+            "release_year": 0.5103773831878218,
+            "genre_count": 0.1985468216626021,
+            "description_word_count": -0.023425525807697932,
+            "content_age_days": NaN
+        },
+        "duration_value": {
+            "binge_score": -0.5286487021834765,
+            "duration_value": 1.0,
+            "release_year": -0.2491815417307441,
+            "genre_count": 0.08654306468591297,
+            "description_word_count": 0.10967267152681782,
+            "content_age_days": NaN
+        },
+        "release_year": {
+            "binge_score": 0.5103773831878218,
+            "duration_value": -0.2491815417307441,
+            "release_year": 1.0,
+            "genre_count": -0.040876502368347174,
+            "description_word_count": -0.0423779314961626,
+            "content_age_days": NaN
+        },
+        "genre_count": {
+            "binge_score": 0.1985468216626021,
+            "duration_value": 0.08654306468591297,
+            "release_year": -0.040876502368347174,
+            "genre_count": 1.0,
+            "description_word_count": 0.06085027756535921,
+            "content_age_days": NaN
+        },
+        "description_word_count": {
+            "binge_score": -0.023425525807697932,
+            "duration_value": 0.10967267152681782,
+            "release_year": -0.0423779314961626,
+            "genre_count": 0.06085027756535921,
+            "description_word_count": 1.0,
+            "content_age_days": NaN
+        },
+        "content_age_days": {
+            "binge_score": NaN,
+            "duration_value": NaN,
+            "release_year": NaN,
+            "genre_count": NaN,
+            "description_word_count": NaN,
+            "content_age_days": NaN
+        }
+    },
+    "cluster_analysis": {
+        "binge_score": {
+            "0": 5.598567659253675,
+            "1": 8.850797266514807,
+            "2": 10.741581259150806,
+            "3": 5.10267414988445
+        },
+        "duration_value": {
+            "0": 112.12514134941576,
+            "1": 11.49373576309795,
+            "2": 3.330893118594436,
+            "3": 96.6427863981512
+        },
+        "genre_count": {
+            "0": 2.888428194496796,
+            "1": 1.5165148063781322,
+            "2": 3.0,
+            "3": 1.6163750412677451
+        },
+        "release_year": {
+            "0": 2009.8684508104034,
+            "1": 2016.4675398633258,
+            "2": 2017.2349926793559,
+            "3": 2015.25321888412
+        },
+        "description_word_count": {
+            "0": 24.365246890312854,
+            "1": 23.120728929384967,
+            "2": 23.620058565153734,
+            "3": 24.020138659623637
+        },
+        "type": {
+            "0": "Movie",
+            "1": "TV Show",
+            "2": "TV Show",
+            "3": "Movie"
+        },
+        "count": {
+            "0": 2653,
+            "1": 1756,
+            "2": 1366,
+            "3": 3029
+        }
+    },
+    "refined_binge_score_stats": {
+        "count": 8807.0,
+        "mean": 9.317947844517619,
+        "std": 1.2814057708015154,
+        "min": 1.8333333333333333,
+        "25%": 9.133333333333333,
+        "50%": 10.0,
+        "75%": 10.0,
+        "max": 10.0
+    }
+}

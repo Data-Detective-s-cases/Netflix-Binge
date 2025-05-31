@@ -1,4 +1,6 @@
-# Netflix Binge-Watching Analysis Project
+# Day #1: Can Netflix's algorithm predict what makes us binge-watch before we even start?
+
+Created by: Manish Paneru
 
 This project analyzes a Netflix dataset to uncover patterns in binge-worthy content and predict what makes users binge-watch shows and movies.
 

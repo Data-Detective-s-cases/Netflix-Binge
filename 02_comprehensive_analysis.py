@@ -209,6 +209,12 @@ plt.close()
 # Save genre correlations to results
 analysis_results['genre_correlations'] = genre_corr.to_dict()
 
+# Get top genres for the Plotly visualization
+top_genres_by_score = pd.DataFrame({
+    'Genre': list(genre_binge_scores.keys()),
+    'Average_Binge_Score': list(genre_binge_scores.values())
+}).sort_values('Average_Binge_Score', ascending=False).head(8)
+
 print("\n3. ANALYZING RELEASE TIMING IMPACT")
 print("-" * 50)
 
@@ -383,13 +389,14 @@ for year, count in yearly_additions.items():
 # Save result
 analysis_results['yearly_additions'] = yearly_additions.to_dict()
 
-# Visualize content additions per year
+# Visualize content additions per year using matplotlib directly
 plt.figure(figsize=(12, 6))
-yearly_additions.plot(kind='bar')
+plt.bar(yearly_additions.index.astype(str), yearly_additions.values)
 plt.title('Content Added to Netflix by Year')
 plt.xlabel('Year')
 plt.ylabel('Number of Titles Added')
 plt.grid(axis='y', linestyle='--', alpha=0.7)
+plt.xticks(rotation=45)
 plt.tight_layout()
 plt.savefig('plots/yearly_content_additions.png')
 plt.close()
@@ -399,12 +406,18 @@ yearly_type_counts = pd.crosstab(df_with_year['add_year'], df_with_year['type'])
 yearly_type_proportions = yearly_type_counts.div(yearly_type_counts.sum(axis=1), axis=0)
 
 plt.figure(figsize=(14, 7))
-yearly_type_proportions.plot(kind='line', marker='o')
+for content_type in yearly_type_proportions.columns:
+    plt.plot(yearly_type_proportions.index.astype(str), 
+             yearly_type_proportions[content_type], 
+             marker='o', 
+             linewidth=2, 
+             label=content_type)
 plt.title('Content Type Proportion Over Years')
 plt.xlabel('Year')
 plt.ylabel('Proportion')
 plt.legend(title='Content Type')
 plt.grid(True, alpha=0.3)
+plt.xticks(rotation=45)
 plt.tight_layout()
 plt.savefig('plots/yearly_content_type_trends.png')
 plt.close()
@@ -413,11 +426,12 @@ plt.close()
 yearly_binge = df_with_year.groupby('add_year')['binge_score'].mean()
 
 plt.figure(figsize=(12, 6))
-yearly_binge.plot(kind='line', marker='o', linewidth=2)
+plt.plot(yearly_binge.index.astype(str), yearly_binge.values, marker='o', linewidth=2)
 plt.title('Average Binge Score Over Years')
 plt.xlabel('Year')
 plt.ylabel('Average Binge Score')
 plt.grid(True, alpha=0.3)
+plt.xticks(rotation=45)
 plt.tight_layout()
 plt.savefig('plots/yearly_binge_score_trend.png')
 plt.close()
@@ -589,6 +603,10 @@ print(f"Refined vs. original score correlation: {df['binge_score'].corr(df['refi
 # Save refined scores with analysis results
 analysis_results['refined_binge_score_stats'] = df['refined_binge_score'].describe().to_dict()
 
+# Save the DataFrame with refined binge score back to CSV
+print("\nSaving dataset with refined binge score...")
+df.to_csv('cleaned_netflix_data.csv', index=False)
+
 # Visualize distribution of refined binge scores
 plt.figure(figsize=(12, 6))
 sns.histplot(df['refined_binge_score'], bins=20, kde=True)
@@ -637,9 +655,8 @@ fig.add_trace(
 )
 
 # Genre impact
-top_genres_df = genre_binge_df.head(8).sort_values('Average_Binge_Score')
 fig.add_trace(
-    go.Bar(x=top_genres_df['Average_Binge_Score'], y=top_genres_df['Genre'], orientation='h', marker_color='mediumpurple'),
+    go.Bar(x=top_genres_by_score['Average_Binge_Score'], y=top_genres_by_score['Genre'], orientation='h', marker_color='mediumpurple'),
     row=2, col=1
 )
 

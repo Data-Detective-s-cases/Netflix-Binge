@@ -21,7 +21,7 @@ import os
 
 # Set page configuration
 st.set_page_config(
-    page_title="Netflix Binge Analysis Dashboard",
+    page_title="Day #1: Netflix Binge Analysis",
     page_icon="🍿",
     layout="wide"
 )
@@ -40,6 +40,12 @@ st.markdown("""
         color: #221F1F;
         margin-top: 1.5rem;
         margin-bottom: 1rem;
+    }
+    .creator-text {
+        font-size: 1.2rem;
+        color: #6c757d;
+        text-align: center;
+        margin-bottom: 1.5rem;
     }
     .card {
         background-color: #f8f9fa;
@@ -66,7 +72,8 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # App title and introduction
-st.markdown("<h1 class='main-header'>Netflix Binge-Watching Analysis</h1>", unsafe_allow_html=True)
+st.markdown("<h1 class='main-header'>Day #1: Can Netflix's algorithm predict what makes us binge-watch before we even start?</h1>", unsafe_allow_html=True)
+st.markdown("<p class='creator-text'>Created by: Manish Paneru</p>", unsafe_allow_html=True)
 
 st.markdown("""
 This dashboard explores patterns in Netflix content to uncover what makes shows and movies binge-worthy.
@@ -191,7 +198,11 @@ with tab1:
     
     with col4:
         st.markdown("<div class='card'>", unsafe_allow_html=True)
-        avg_score = filtered_df['refined_binge_score'].mean()
+        # Check if refined_binge_score exists, otherwise use binge_score
+        if 'refined_binge_score' in filtered_df.columns:
+            avg_score = filtered_df['refined_binge_score'].mean()
+        else:
+            avg_score = filtered_df['binge_score'].mean()
         st.markdown(f"<div class='metric-value'>{avg_score:.1f}</div>", unsafe_allow_html=True)
         st.markdown("<div class='metric-label'>Avg Binge Score</div>", unsafe_allow_html=True)
         st.markdown("</div>", unsafe_allow_html=True)
@@ -231,15 +242,21 @@ with tab1:
     genres_flat = [genre for sublist in filtered_df['genres'] for genre in sublist]
     genre_counts = pd.Series(genres_flat).value_counts().head(10)
     
-    fig = px.bar(
-        x=genre_counts.index,
-        y=genre_counts.values,
-        title="Top 10 Genres",
-        labels={'x': 'Genre', 'y': 'Number of Titles'},
-        color=genre_counts.values,
-        color_continuous_scale='Viridis'
-    )
-    st.plotly_chart(fig, use_container_width=True)
+    if len(genre_counts) > 0:
+        # Create a DataFrame for px.bar instead of using separate x and y
+        genre_df = pd.DataFrame({'Genre': genre_counts.index, 'Count': genre_counts.values})
+        
+        fig = px.bar(
+            genre_df,
+            x='Genre',
+            y='Count',
+            title="Top 10 Genres",
+            color='Count',
+            color_continuous_scale='Viridis'
+        )
+        st.plotly_chart(fig, use_container_width=True)
+    else:
+        st.info("No genre data available for the selected filters.")
     
     # Content over time
     st.markdown("<h3>Content Trends Over Time</h3>", unsafe_allow_html=True)
@@ -299,17 +316,26 @@ with tab2:
     # Genre analysis
     st.markdown("<h3>Genre Analysis</h3>", unsafe_allow_html=True)
     
+    # Helper function to get the right binge score column
+    def get_binge_score_column(df):
+        if 'refined_binge_score' in df.columns:
+            return 'refined_binge_score'
+        else:
+            return 'binge_score'
+
     # Prepare genre binge score data
     if len(filtered_df) > 0:
         genre_scores = {}
         genre_counts = {}
+        
+        binge_score_col = get_binge_score_column(filtered_df)
         
         for genres in filtered_df['genres']:
             for genre in genres:
                 if genre not in genre_scores:
                     genre_scores[genre] = []
                     genre_counts[genre] = 0
-                genre_scores[genre].append(filtered_df.loc[filtered_df['genres'].apply(lambda x: genre in x), 'refined_binge_score'].mean())
+                genre_scores[genre].append(filtered_df.loc[filtered_df['genres'].apply(lambda x: genre in x), binge_score_col].mean())
                 genre_counts[genre] += 1
         
         genre_avg_scores = {genre: np.mean(scores) for genre, scores in genre_scores.items() if genre_counts[genre] >= 5}
@@ -350,7 +376,8 @@ with tab2:
     country_counts = filtered_df['primary_country'].value_counts().head(10)
     
     if len(country_counts) > 0:
-        country_binge_scores = filtered_df.groupby('primary_country')['refined_binge_score'].mean()
+        binge_score_col = get_binge_score_column(filtered_df)
+        country_binge_scores = filtered_df.groupby('primary_country')[binge_score_col].mean()
         
         country_df = pd.DataFrame({
             'Country': country_counts.index,
@@ -382,9 +409,10 @@ with tab3:
     st.markdown("<h3>Binge Score Distribution</h3>", unsafe_allow_html=True)
     
     if len(filtered_df) > 0:
+        binge_score_col = get_binge_score_column(filtered_df)
         fig = px.histogram(
             filtered_df,
-            x='refined_binge_score',
+            x=binge_score_col,
             color='type',
             nbins=20,
             title="Distribution of Binge Scores",
@@ -411,14 +439,15 @@ with tab3:
         df_with_age['gap_category'] = pd.cut(df_with_age['release_gap_years'], bins=bins, labels=labels)
         
         # Calculate average binge score by gap category
-        gap_binge = df_with_age.groupby('gap_category')['refined_binge_score'].mean().reset_index()
+        binge_score_col = get_binge_score_column(df_with_age)
+        gap_binge = df_with_age.groupby('gap_category')[binge_score_col].mean().reset_index()
         gap_counts = df_with_age['gap_category'].value_counts().to_dict()
         gap_binge['count'] = gap_binge['gap_category'].apply(lambda x: gap_counts.get(x, 0))
         
         fig = px.bar(
             gap_binge,
             x='gap_category',
-            y='refined_binge_score',
+            y=binge_score_col,
             color='count',
             title="Content Age vs Binge Score",
             text=gap_binge['count'].apply(lambda x: f"n={x}"),
@@ -432,7 +461,7 @@ with tab3:
         fig = px.scatter(
             filtered_df,
             x='release_year',
-            y='refined_binge_score',
+            y=binge_score_col,
             color='type',
             size='duration_value',
             hover_name='title',
@@ -448,14 +477,15 @@ with tab3:
     st.markdown("<h3>Rating Impact on Binge Score</h3>", unsafe_allow_html=True)
     
     if len(filtered_df) > 0:
-        rating_binge = filtered_df.groupby('rating_category')['refined_binge_score'].mean().reset_index()
+        binge_score_col = get_binge_score_column(filtered_df)
+        rating_binge = filtered_df.groupby('rating_category')[binge_score_col].mean().reset_index()
         rating_counts = filtered_df['rating_category'].value_counts().to_dict()
         rating_binge['count'] = rating_binge['rating_category'].apply(lambda x: rating_counts.get(x, 0))
         
         fig = px.bar(
             rating_binge,
             x='rating_category',
-            y='refined_binge_score',
+            y=binge_score_col,
             color='count',
             title="Rating Category vs Binge Score",
             text=rating_binge['count'].apply(lambda x: f"n={x}"),
@@ -679,6 +709,8 @@ st.sidebar.info("""
 **Netflix Binge Analysis Dashboard**
 
 This app explores patterns in Netflix content to understand what makes shows and movies binge-worthy.
+
+Created by: Manish Paneru
 
 Data last updated: 2023
 """)
