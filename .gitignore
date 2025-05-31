@@ -7,7 +7,26 @@ ENV/
 __pycache__/
 *.py[cod]
 *$py.class
-.pytest_cache/
+
+# IDE files
+.idea/
+.vscode/
+*.swp
+.DS_Store
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Local development
+.env
+.env.local
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
 
 # Distribution / packaging
 .Python
@@ -26,16 +45,6 @@ wheels/
 *.egg-info/
 .installed.cfg
 *.egg
-
-# IDE files
-.idea/
-.vscode/
-*.swp
-*.swo
-.DS_Store
-
-# Jupyter Notebook
-.ipynb_checkpoints
 
 # Logs
 logs/

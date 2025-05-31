@@ -106,7 +106,8 @@ def load_data():
             
         return df
     except FileNotFoundError:
-        st.error("I couldn't find the data file. Please run the data cleaning script (01_data_cleaning.py) first.")
+        st.error("⚠️ Data file not found. Make sure cleaned_netflix_data.csv is in the same directory as the app.")
+        st.info("If you're running this in deployment, make sure to include the data file in your repository.")
         return None
 
 # Load my analysis results
@@ -125,21 +126,27 @@ analysis_results = load_analysis_results()
 
 # Check if data is loaded successfully
 if df is None:
+    st.error("⚠️ Data file not found. Make sure cleaned_netflix_data.csv is in the same directory as the app.")
+    st.info("If you're running this in deployment, make sure to include the data file in your repository.")
     st.stop()
 
 # Sidebar filters
 st.sidebar.markdown("## Filter Options")
 st.sidebar.markdown("Use these filters to explore different segments of Netflix content:")
 
-# Year range filter
-min_year = int(df['release_year'].min())
-max_year = int(df['release_year'].max())
-year_range = st.sidebar.slider(
-    "Release Year",
-    min_value=min_year,
-    max_value=max_year,
-    value=(min_year, max_year)
-)
+# Year range filter - safeguard against missing data
+try:
+    min_year = int(df['release_year'].min())
+    max_year = int(df['release_year'].max())
+    year_range = st.sidebar.slider(
+        "Release Year", 
+        min_value=min_year,
+        max_value=max_year,
+        value=(min_year, max_year)
+    )
+except:
+    st.error("⚠️ Error processing release year data.")
+    st.stop()
 
 # Content type filter
 content_types = ['All'] + sorted(df['type'].unique().tolist())
