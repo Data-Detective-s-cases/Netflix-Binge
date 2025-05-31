@@ -2,13 +2,13 @@
 """
 Netflix Binge Dataset - Data Cleaning and Preparation
 
-This script:
-- Loads the raw Netflix dataset
-- Handles missing values
-- Cleans duration format (minutes for movies, seasons for TV shows)
-- Parses and cleans genre data from 'listed_in' column
-- Converts date_added and release_year to proper datetime
-- Creates new features for analysis
+Hi there! In this script, I'll walk you through how I:
+- Load our raw Netflix dataset
+- Handle those pesky missing values
+- Clean up the duration format (converting to minutes for movies and season counts for shows)
+- Parse and organize genre data from the 'listed_in' column
+- Convert dates to proper datetime objects for better analysis
+- Create some cool new features that will help us identify binge-worthy content
 """
 
 import pandas as pd
@@ -21,12 +21,12 @@ from tqdm import tqdm
 print("Netflix Binge Analysis - Data Cleaning and Preparation")
 print("-" * 50)
 
-# Load the raw data
+# First, I'll load the raw data
 print("Loading raw dataset...")
 df = pd.read_csv('data.csv')
 print(f"Loaded dataset with {df.shape[0]} rows and {df.shape[1]} columns")
 
-# Display initial information
+# Let's take a quick look at what we're working with
 print("\nInitial data overview:")
 print(f"Columns: {', '.join(df.columns.tolist())}")
 print(f"Missing values: {df.isnull().sum().sum()} total")
@@ -35,22 +35,22 @@ for col in df.columns:
     if missing > 0:
         print(f"  - {col}: {missing} missing values ({missing/len(df)*100:.2f}%)")
 
-# Clean column names (standardize format)
+# I'll clean up the column names to make them more consistent
 df.columns = df.columns.str.strip().str.lower().str.replace(' ', '_')
 
-# Handle missing values
+# Now I'll tackle those missing values
 print("\nHandling missing values...")
-# For director and cast, replace NaN with 'Unknown'
+# For director and cast, I'll replace NaN with 'Unknown'
 for col in ['director', 'cast', 'country', 'description']:
     df[col] = df[col].fillna('Unknown')
 
-# Extract duration values
+# Next, I need to extract the duration values in a usable format
 print("\nCleaning duration column...")
 def extract_duration(duration_str):
     if pd.isna(duration_str):
         return np.nan, "Unknown"
     
-    # Extract digits and unit
+    # I'll extract digits and units (minutes or seasons)
     match_min = re.search(r'(\d+)\s*min', str(duration_str))
     match_seasons = re.search(r'(\d+)\s*Season', str(duration_str))
     
@@ -61,20 +61,20 @@ def extract_duration(duration_str):
     else:
         return np.nan, "Unknown"
 
-# Create separate columns for duration value and unit
+# Now I'll create separate columns for duration value and unit
 df['duration_value'], df['duration_type'] = zip(*df['duration'].apply(extract_duration))
 
-# Ensure type column is consistent with extracted duration type
+# I'll make sure the type column matches my extracted duration type
 df['type'] = df['type'].fillna(df['duration_type'])
 
-# Parse date_added to datetime
+# Let's convert date_added to a proper datetime format
 print("\nConverting date_added to datetime...")
 def parse_date_added(date_str):
     if pd.isna(date_str):
         return pd.NaT
     
     try:
-        # Remove any non-standard characters and parse
+        # I'll remove any non-standard characters and parse the date
         clean_date = re.sub(r'[^\w\s,]', '', str(date_str)).strip()
         return pd.to_datetime(clean_date, format='%B %d %Y')
     except:
@@ -82,45 +82,45 @@ def parse_date_added(date_str):
 
 df['date_added'] = df['date_added'].apply(parse_date_added)
 
-# Convert release_year to datetime (year start)
+# I'll also convert release_year to a datetime (year start)
 df['release_date'] = pd.to_datetime(df['release_year'], format='%Y')
 
-# Extract genres from listed_in
+# Now I'll parse out the genres from the listed_in column
 print("\nParsing genres from listed_in column...")
 def extract_genres(genres_str):
     if pd.isna(genres_str):
         return []
     
-    # Split by commas and strip whitespace
+    # I'll split by commas and clean up any whitespace
     genres = [genre.strip() for genre in str(genres_str).split(',')]
     return genres
 
 df['genres'] = df['listed_in'].apply(extract_genres)
 df['genre_count'] = df['genres'].apply(len)
 
-# Create one-hot encoded genre columns
+# Let's create one-hot encoded columns for the genres
 print("Creating one-hot encoded genre columns...")
 all_genres = set()
 for genres in df['genres']:
     all_genres.update(genres)
 
-# Create individual genre columns (limited to top 20 for manageability)
+# I'll focus on the top 20 genres to keep things manageable
 top_genres = pd.Series([g for sublist in df['genres'] for g in sublist]).value_counts().head(20).index
 for genre in top_genres:
     df[f'genre_{genre.lower().replace(" ", "_")}'] = df['genres'].apply(lambda x: 1 if genre in x else 0)
 
-# Create new features
+# Time to create some interesting new features
 print("\nCreating new features...")
 
-# Content age (days between release and being added to Netflix)
+# I'll calculate the content age (days between release and being added to Netflix)
 df['content_age_days'] = (df['date_added'] - df['release_date']).dt.days
 
-# Extract just the first country listed
+# I'll extract just the first country listed as the primary country
 df['primary_country'] = df['country'].apply(
     lambda x: x.split(',')[0].strip() if not pd.isna(x) else "Unknown"
 )
 
-# Create a simplified rating category
+# Now I'll create a simplified rating category for easier analysis
 def simplify_rating(rating):
     if pd.isna(rating):
         return "Unknown"
@@ -136,13 +136,13 @@ def simplify_rating(rating):
 
 df['rating_category'] = df['rating'].apply(simplify_rating)
 
-# Categorize content based on release decade
+# I'll categorize content based on release decade
 df['release_decade'] = (df['release_year'] // 10) * 10
 
-# Calculate average words in description as engagement metric
+# Let's count words in the description as an engagement metric
 df['description_word_count'] = df['description'].apply(lambda x: len(str(x).split()) if not pd.isna(x) else 0)
 
-# Create binge score proxy (experimental feature for modeling)
+# Finally, I'll create a binge score proxy (my experimental feature for prediction modeling)
 # Higher scores might indicate higher binge-worthiness
 def calculate_binge_score(row):
     score = 0
@@ -167,10 +167,10 @@ def calculate_binge_score(row):
 
 df['binge_score'] = df.apply(calculate_binge_score, axis=1)
 
-# Save cleaned dataset
+# All done! Let's save our clean dataset
 print("\nSaving cleaned dataset...")
 df.to_csv('cleaned_netflix_data.csv', index=False)
 
-print(f"\nCleaning completed. Saved cleaned dataset with {df.shape[0]} rows and {df.shape[1]} columns")
+print(f"\nCleaning completed. I've saved the cleaned dataset with {df.shape[0]} rows and {df.shape[1]} columns")
 print(f"New features added: {', '.join([col for col in df.columns if col not in pd.read_csv('data.csv').columns])}")
-print("\nData is ready for analysis!") 
+print("\nData is ready for analysis! Now you can run 02_comprehensive_analysis.py to dive deeper!") 

@@ -2,16 +2,16 @@
 """
 Netflix Binge Dataset - Comprehensive Analysis
 
-This script:
-- Loads the cleaned Netflix dataset
-- Analyzes duration patterns for TV shows vs movies
-- Performs genre analysis to find binge-worthy combinations
-- Analyzes impact of release timing on binge potential
-- Compares international vs domestic content patterns
-- Evaluates rating influence on binge-worthiness
-- Explores year-over-year content trends
-- Generates and saves visualizations
-- Calculates statistical insights and creates a binge score
+Welcome to the heart of my Netflix binge analysis! In this script, I'll:
+- Dig deep into the cleaned Netflix dataset
+- Show you fascinating duration patterns between TV shows and movies
+- Reveal which genre combinations are most binge-worthy
+- Analyze how release timing affects binge potential
+- Compare international vs domestic content patterns
+- Demonstrate how ratings influence binge-worthiness
+- Explore year-over-year trends in content performance
+- Generate beautiful visualizations to bring the data to life
+- Calculate statistical insights to create my binge score algorithm
 """
 
 import pandas as pd
@@ -28,19 +28,19 @@ import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 from datetime import datetime
 
-# Configure visualizations
+# Let me set up some nice visualization styles for our charts
 plt.style.use('seaborn-v0_8-whitegrid')
 plt.rcParams['figure.figsize'] = (12, 8)
 plt.rcParams['figure.dpi'] = 100
 
-# Ensure plots directory exists
+# I'll make sure we have a plots directory to save our visualizations
 if not os.path.exists('plots'):
     os.makedirs('plots')
 
 print("Netflix Binge Analysis - Comprehensive Analysis")
 print("-" * 50)
 
-# Load the cleaned data
+# First, let's load our cleaned data
 print("Loading cleaned dataset...")
 try:
     df = pd.read_csv('cleaned_netflix_data.csv')
@@ -49,39 +49,39 @@ except FileNotFoundError:
     print("Cleaned dataset not found. Please run the data cleaning script first.")
     exit(1)
 
-# Convert date columns to datetime
+# I need to convert date columns to proper datetime format
 date_cols = ['date_added', 'release_date']
 for col in date_cols:
     if col in df.columns:
         df[col] = pd.to_datetime(df[col], errors='coerce')
 
-# Ensure genres column is converted from string to list
+# Let me ensure our genres column is properly converted from string to list
 if 'genres' in df.columns and isinstance(df['genres'].iloc[0], str):
     df['genres'] = df['genres'].apply(eval)
 
-# Variable to store all analysis results for later saving
+# I'll initialize a dictionary to store all our analysis results for later
 analysis_results = {}
 
 print("\n1. ANALYZING DURATION PATTERNS")
 print("-" * 50)
 
-# 1.1 Separate movies and TV shows
+# Let me separate movies and TV shows to analyze them independently
 movies_df = df[df['type'] == 'Movie'].copy()
 tvshows_df = df[df['type'] == 'TV Show'].copy()
 
 print(f"Movies: {len(movies_df)} | TV Shows: {len(tvshows_df)}")
 
-# 1.2 Analyze movie durations
+# Now I'll analyze movie durations to find the sweet spot
 movie_duration_stats = movies_df['duration_value'].describe().to_dict()
 print("\nMovie duration statistics (minutes):")
 print(f"Average: {movie_duration_stats['mean']:.1f}")
 print(f"Median: {movie_duration_stats['50%']}")
 print(f"Range: {movie_duration_stats['min']} - {movie_duration_stats['max']}")
 
-# Save result
+# I'll save these results for later
 analysis_results['movie_duration_stats'] = movie_duration_stats
 
-# Visualize movie duration distribution
+# Let me visualize the movie duration distribution with a histogram
 plt.figure(figsize=(10, 6))
 sns.histplot(movies_df['duration_value'].dropna(), bins=30, kde=True)
 plt.title('Distribution of Movie Durations on Netflix')
@@ -94,17 +94,17 @@ plt.tight_layout()
 plt.savefig('plots/movie_duration_distribution.png')
 plt.close()
 
-# 1.3 Analyze TV show seasons
+# Next, let's look at TV show seasons
 tvshow_seasons_stats = tvshows_df['duration_value'].describe().to_dict()
 print("\nTV Show seasons statistics:")
 print(f"Average: {tvshow_seasons_stats['mean']:.1f}")
 print(f"Median: {tvshow_seasons_stats['50%']}")
 print(f"Range: {tvshow_seasons_stats['min']} - {tvshow_seasons_stats['max']}")
 
-# Save result
+# Saving these stats too
 analysis_results['tvshow_seasons_stats'] = tvshow_seasons_stats
 
-# Visualize TV show seasons distribution
+# I'll create a bar chart to visualize TV show season distribution
 plt.figure(figsize=(10, 6))
 season_counts = tvshows_df['duration_value'].value_counts().sort_index()
 sns.barplot(x=season_counts.index, y=season_counts.values)
@@ -117,7 +117,7 @@ plt.tight_layout()
 plt.savefig('plots/tvshow_seasons_distribution.png')
 plt.close()
 
-# 1.4 Compare binge scores between TV shows with different season counts
+# This is fascinating - let's see how binge scores vary by season count
 season_binge_scores = tvshows_df.groupby('duration_value')['binge_score'].mean().reset_index()
 plt.figure(figsize=(10, 6))
 sns.barplot(x='duration_value', y='binge_score', data=season_binge_scores)

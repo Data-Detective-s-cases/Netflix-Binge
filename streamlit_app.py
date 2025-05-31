@@ -2,10 +2,14 @@
 """
 Netflix Binge Analysis - Streamlit Dashboard App
 
-This app provides an interactive dashboard to explore the Netflix binge analysis results:
-- Data filters for genre, year, country, and rating
-- Dynamic visualizations based on user selections
-- Binge-worthiness prediction algorithm
+Hi there! Welcome to my interactive Netflix binge analysis dashboard.
+
+I've built this app to help you explore:
+- Patterns in what makes Netflix content binge-worthy
+- How different factors like genre, duration, and release timing affect binge potential
+- An algorithm I designed to predict binge-worthiness of content
+
+Feel free to use the filters to explore different aspects of the data!
 """
 
 import streamlit as st
@@ -76,39 +80,44 @@ st.markdown("<h1 class='main-header'>Day #1: Can Netflix's algorithm predict wha
 st.markdown("<p class='creator-text'>Created by: Manish Paneru</p>", unsafe_allow_html=True)
 
 st.markdown("""
-This dashboard explores patterns in Netflix content to uncover what makes shows and movies binge-worthy.
-Discover how factors like duration, genre, release timing, and ratings influence binge potential.
+I've analyzed thousands of Netflix titles to uncover what really makes us binge-watch content.
+Through this dashboard, you'll see how factors like duration, genre combinations, release timing, 
+and ratings influence our binge-watching behavior. Play around with the filters on the left to 
+explore different patterns!
 """)
 
 # Load the data
 @st.cache_data
 def load_data():
     try:
-        df = pd.read_csv('cleaned_netflix_data.csv')
+        # Use a relative path that works both locally and in deployment
+        data_path = os.path.join(os.path.dirname(__file__), 'cleaned_netflix_data.csv')
+        df = pd.read_csv(data_path)
         
-        # Convert date columns to datetime
+        # I need to convert date columns to datetime for proper analysis
         date_cols = ['date_added', 'release_date']
         for col in date_cols:
             if col in df.columns:
                 df[col] = pd.to_datetime(df[col], errors='coerce')
         
-        # Ensure genres column is converted from string to list
+        # And make sure genres are properly converted from string to list
         if 'genres' in df.columns and isinstance(df['genres'].iloc[0], str):
             df['genres'] = df['genres'].apply(eval)
             
         return df
     except FileNotFoundError:
-        st.error("Data file not found. Please run the data cleaning script first.")
+        st.error("I couldn't find the data file. Please run the data cleaning script (01_data_cleaning.py) first.")
         return None
 
-# Load analysis results
+# Load my analysis results
 @st.cache_data
 def load_analysis_results():
     try:
-        with open('netflix_analysis_results.json', 'r') as f:
+        results_path = os.path.join(os.path.dirname(__file__), 'netflix_analysis_results.json')
+        with open(results_path, 'r') as f:
             return json.load(f)
     except FileNotFoundError:
-        st.error("Analysis results file not found. Please run the analysis script first.")
+        st.error("I couldn't find the analysis results. Please run the analysis script (02_comprehensive_analysis.py) first.")
         return {}
 
 df = load_data()
@@ -119,7 +128,8 @@ if df is None:
     st.stop()
 
 # Sidebar filters
-st.sidebar.markdown("## Filters")
+st.sidebar.markdown("## Filter Options")
+st.sidebar.markdown("Use these filters to explore different segments of Netflix content:")
 
 # Year range filter
 min_year = int(df['release_year'].min())
@@ -501,8 +511,10 @@ with tab4:
     st.markdown("<h2 class='sub-header'>Binge-Worthiness Prediction</h2>", unsafe_allow_html=True)
     
     st.markdown("""
-    Based on our analysis, we've developed a binge-worthiness prediction model. 
-    Use the form below to input content characteristics and see the predicted binge score.
+    Based on my analysis of Netflix content patterns, I've developed a model to predict how binge-worthy a show or movie might be. 
+    
+    You can use this form to test different characteristics and see what combination creates the most binge-worthy content! 
+    Try adjusting the parameters below to see how factors like duration, genre mix, and release timing affect the binge potential score.
     """)
     
     # Create a form for prediction inputs
@@ -698,9 +710,9 @@ with tab4:
 # Footer with additional information
 st.markdown("<hr>", unsafe_allow_html=True)
 st.markdown("""
-**About this dashboard:**
-This interactive dashboard was created as part of a Netflix binge-watching analysis project.
-Data is based on a Netflix dataset containing movies and TV shows up to 2021.
+**About this project:** 
+I created this interactive dashboard as part of my exploration into Netflix's binge-watching patterns.
+The data is based on a Netflix dataset I analyzed containing movies and TV shows up to 2021.
 """)
 
 # Add app execution information
@@ -708,7 +720,7 @@ st.sidebar.markdown("### About")
 st.sidebar.info("""
 **Netflix Binge Analysis Dashboard**
 
-This app explores patterns in Netflix content to understand what makes shows and movies binge-worthy.
+I built this app to help visualize patterns in Netflix content and understand what makes shows and movies binge-worthy.
 
 Created by: Manish Paneru
 
